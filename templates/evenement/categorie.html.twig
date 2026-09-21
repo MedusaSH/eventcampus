@@ -1,0 +1,62 @@
+{% extends 'layout/main.html.twig' %}
+
+{% block title %}Événements {{ categorie|capitalize }} - EventCampus{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('app_accueil') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('app_evenements') }}">Événements</a></li>
+        <li class="breadcrumb-item active">{{ categorie|capitalize }}</li>
+    </ol>
+</nav>
+
+<h1 class="mb-4">
+    Événements
+    <span class="badge
+        {% if categorie == 'culturel' %}bg-primary
+        {% elseif categorie == 'sportif' %}bg-success
+        {% elseif categorie == 'associatif' %}bg-warning text-dark
+        {% elseif categorie == 'festif' %}bg-danger
+        {% else %}bg-secondary{% endif %}">
+        {{ categorie|capitalize }}
+    </span>
+</h1>
+
+<div class="mb-4">
+    <span class="fw-bold me-2">Autres catégories :</span>
+    {% if categorie != 'culturel' %}
+        <a href="{{ path('app_evenements_categorie', {categorie: 'culturel'}) }}" class="btn btn-sm btn-outline-primary">Culturel</a>
+    {% endif %}
+    {% if categorie != 'sportif' %}
+        <a href="{{ path('app_evenements_categorie', {categorie: 'sportif'}) }}" class="btn btn-sm btn-outline-success">Sportif</a>
+    {% endif %}
+    {% if categorie != 'associatif' %}
+        <a href="{{ path('app_evenements_categorie', {categorie: 'associatif'}) }}" class="btn btn-sm btn-outline-warning">Associatif</a>
+    {% endif %}
+    {% if categorie != 'festif' %}
+        <a href="{{ path('app_evenements_categorie', {categorie: 'festif'}) }}" class="btn btn-sm btn-outline-danger">Festif</a>
+    {% endif %}
+    <a href="{{ path('app_evenements') }}" class="btn btn-sm btn-outline-secondary">Tous</a>
+</div>
+
+{% if events is empty %}
+    <div class="alert alert-info">
+        Aucun événement dans cette catégorie.
+    </div>
+{% else %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for event in events %}
+            <div class="col">
+                {% include 'components/evenement_card.html.twig' with {event: event} %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{{ path('app_evenements') }}" class="btn btn-outline-secondary">
+        ← Voir tous les événements
+    </a>
+</div>
+{% endblock %}

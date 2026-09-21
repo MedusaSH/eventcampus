@@ -1,0 +1,30 @@
+<div class="card h-100">
+    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 180px;">
+        <span class="fs-1">📅</span>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ event.titre }}</h5>
+        <p class="card-text text-muted">
+            <small>
+                📍 {{ event.lieu }}<br>
+                📆 {{ event.date_debut|date('d/m/Y à H:i') }}
+            </small>
+        </p>
+        <span class="badge
+            {% if event.statut == 'ouvert' %}bg-success
+            {% elseif event.statut == 'complet' %}bg-danger
+            {% else %}bg-secondary{% endif %}">
+            {{ event.statut|capitalize }}
+        </span>
+        {% if event.prix > 0 %}
+            <span class="badge bg-info">{{ event.prix }}€</span>
+        {% else %}
+            <span class="badge bg-success">Gratuit</span>
+        {% endif %}
+    </div>
+    <div class="card-footer bg-transparent">
+        <a href="{{ path('app_evenements_show', {id: event.id}) }}" class="btn btn-primary btn-sm w-100">
+            Voir le détail
+        </a>
+    </div>
+</div>

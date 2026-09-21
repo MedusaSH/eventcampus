@@ -1,0 +1,107 @@
+{% extends 'layout/main.html.twig' %}
+
+{% block title %}Statistiques - EventCampus{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Statistiques des événements</h1>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+    <div class="col">
+        <div class="card text-center h-100 border-primary">
+            <div class="card-body">
+                <h2 class="display-4 text-primary">{{ nbEvenements }}</h2>
+                <p class="card-text text-muted">Événements</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-center h-100 border-success">
+            <div class="card-body">
+                <h2 class="display-4 text-success">{{ totalPlaces }}</h2>
+                <p class="card-text text-muted">Places totales</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-center h-100 border-warning">
+            <div class="card-body">
+                <h2 class="display-4 text-warning">{{ moyennePlaces }}</h2>
+                <p class="card-text text-muted">Moyenne places/événement</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-center h-100 border-info">
+            <div class="card-body">
+                <h2 class="display-4 text-info">{{ tauxOccupation }}%</h2>
+                <p class="card-text text-muted">Taux d'occupation</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Répartition par catégorie</h5>
+            </div>
+            <div class="card-body">
+                {% for categorie, nombre in repartitionCategories %}
+                    {% set pourcentage = nbEvenements > 0 ? (nombre / nbEvenements * 100) : 0 %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold">{{ categorie|capitalize }}</span>
+                            <span>{{ nombre }} événement{{ nombre > 1 ? 's' : '' }}</span>
+                        </div>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar
+                                {% if categorie == 'culturel' %}bg-primary
+                                {% elseif categorie == 'sportif' %}bg-success
+                                {% elseif categorie == 'associatif' %}bg-warning
+                                {% elseif categorie == 'festif' %}bg-danger
+                                {% else %}bg-secondary{% endif %}"
+                                role="progressbar"
+                                style="width: {{ pourcentage }}%">
+                                {{ pourcentage|round }}%
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Occupation globale</h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="display-1 mb-3">
+                    {% if tauxOccupation >= 80 %}
+                        🔥
+                    {% elseif tauxOccupation >= 50 %}
+                        👍
+                    {% else %}
+                        📊
+                    {% endif %}
+                </div>
+                <p class="lead">
+                    <strong>{{ totalPlacesOccupees }}</strong> places occupées sur <strong>{{ totalPlaces }}</strong>
+                </p>
+                <div class="progress" style="height: 40px;">
+                    <div class="progress-bar
+                        {% if tauxOccupation >= 80 %}bg-danger
+                        {% elseif tauxOccupation >= 50 %}bg-warning
+                        {% else %}bg-success{% endif %}"
+                        role="progressbar"
+                        style="width: {{ tauxOccupation }}%">
+                        <span class="fs-5">{{ tauxOccupation }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

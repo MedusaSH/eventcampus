@@ -1,0 +1,29 @@
+{% extends 'layout/main.html.twig' %}
+
+{% block title %}Tous les événements - EventCampus{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Tous les événements</h1>
+
+<div class="mb-4">
+    <span class="fw-bold me-2">Filtrer par catégorie :</span>
+    <a href="{{ path('app_evenements_categorie', {categorie: 'culturel'}) }}" class="btn btn-sm btn-outline-primary">Culturel</a>
+    <a href="{{ path('app_evenements_categorie', {categorie: 'sportif'}) }}" class="btn btn-sm btn-outline-success">Sportif</a>
+    <a href="{{ path('app_evenements_categorie', {categorie: 'associatif'}) }}" class="btn btn-sm btn-outline-warning">Associatif</a>
+    <a href="{{ path('app_evenements_categorie', {categorie: 'festif'}) }}" class="btn btn-sm btn-outline-danger">Festif</a>
+</div>
+
+{% if events is empty %}
+    <div class="alert alert-info">
+        Aucun événement disponible.
+    </div>
+{% else %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for event in events %}
+            <div class="col">
+                {% include 'components/evenement_card.html.twig' with {event: event} %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

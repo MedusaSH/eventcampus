@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvée - EventCampus{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-1 text-muted">404</h1>
+            <h2 class="mb-4">Page non trouvée</h2>
+            <p class="lead text-muted mb-4">
+                Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ path('app_accueil') }}" class="btn btn-primary">
+                    Retour à l'accueil
+                </a>
+                <a href="{{ path('app_evenements') }}" class="btn btn-outline-secondary">
+                    Voir les événements
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

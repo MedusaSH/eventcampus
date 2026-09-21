@@ -1,0 +1,32 @@
+{% extends 'layout/main.html.twig' %}
+
+{% block title %}Accueil - EventCampus{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4">Bienvenue sur EventCampus</h1>
+    <p class="lead text-muted">Découvrez tous les événements étudiants du campus</p>
+</div>
+
+<h2 class="mb-4">Prochains événements</h2>
+
+{% if events is empty %}
+    <div class="alert alert-info">
+        Aucun événement à venir pour le moment.
+    </div>
+{% else %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for event in events %}
+            <div class="col">
+                {% include 'components/evenement_card.html.twig' with {event: event} %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="{{ path('app_evenements') }}" class="btn btn-outline-primary btn-lg">
+        Voir tous les événements
+    </a>
+</div>
+{% endblock %}
